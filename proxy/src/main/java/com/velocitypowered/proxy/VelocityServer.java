@@ -148,6 +148,9 @@ public class VelocityServer implements ProxyServer, ForwardingAudience {
   private final VelocityChannelRegistrar channelRegistrar = new VelocityChannelRegistrar();
   private ServerListPingHandler serverListPingHandler;
 
+  private String customVersion = null;
+  private String customVersionFormat = null;
+
   VelocityServer(final ProxyOptions options) {
     pluginManager = new VelocityPluginManager(this);
     eventManager = new VelocityEventManager(pluginManager);
@@ -764,5 +767,33 @@ public class VelocityServer implements ProxyServer, ForwardingAudience {
   @Override
   public ResourcePackInfo.Builder createResourcePackBuilder(String url) {
     return new VelocityResourcePackInfo.BuilderImpl(url);
+  }
+
+  /**
+   * Set a custom server version to be displayed in F3.
+   *
+   * @param version the custom version
+   */
+  @Override
+  public void setCustomVersion(String version) {
+    this.customVersion = version;
+  }
+
+  /**
+   * Set a custom server version format to be displayed in F3.
+   *
+   * @param format the custom version format
+   */
+  @Override
+  public void setCustomVersionFormat(String format) {
+    this.customVersionFormat = format;
+  }
+
+  public String getCustomVersion() {
+    return customVersion;
+  }
+
+  public String getCustomVersionFormat() {
+    return customVersionFormat;
   }
 }

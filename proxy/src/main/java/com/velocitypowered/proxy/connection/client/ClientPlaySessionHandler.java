@@ -313,8 +313,7 @@ public class ClientPlaySessionHandler implements MinecraftSessionHandler {
         server.getEventManager().fireAndForget(new PlayerClientBrandEvent(player, brand));
         player.setClientBrand(brand);
         backendConn.write(
-            PluginMessageUtil.rewriteMinecraftBrand(packet, server.getVersion(),
-                player.getProtocolVersion()));
+            PluginMessageUtil.rewriteMinecraftBrand(packet, server, player.getProtocolVersion()));
       } else if (BungeeCordMessageResponder.isBungeeCordMessage(packet)) {
         return true;
       } else {

@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.ImmutableList;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.util.ProxyVersion;
+import com.velocitypowered.proxy.VelocityServer;
 import com.velocitypowered.proxy.protocol.ProtocolUtils;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
 import io.netty.buffer.ByteBuf;
@@ -126,17 +127,22 @@ public final class PluginMessageUtil {
    * Rewrites the brand message to indicate the presence of Velocity.
    *
    * @param message the plugin message
-   * @param version the proxy version
+   * @param server the velocity server
    * @return the rewritten plugin message
    */
-  public static PluginMessage rewriteMinecraftBrand(PluginMessage message, ProxyVersion version,
+  public static PluginMessage rewriteMinecraftBrand(PluginMessage message, VelocityServer server,
       ProtocolVersion protocolVersion) {
     checkNotNull(message, "message");
-    checkNotNull(version, "version");
+    checkNotNull(server, "server");
     checkArgument(isMcBrand(message), "message is not a brand plugin message");
 
+    String format = server.getCustomVersionFormat() == null ? "%s (%s)" : server
+        .getCustomVersionFormat();
+    String version = server.getCustomVersion() == null ? server.getVersion().getName() : server
+        .getCustomVersion();
+
     String currentBrand = readBrandMessage(message.content());
-    String rewrittenBrand = String.format("%s (%s)", currentBrand, version.getName());
+    String rewrittenBrand = String.format(format, currentBrand, version);
 
     ByteBuf rewrittenBuf = Unpooled.buffer();
     if (protocolVersion.compareTo(ProtocolVersion.MINECRAFT_1_8) >= 0) {

@@ -216,4 +216,18 @@ public interface ProxyServer extends Audience {
    * @return a ResourcePackInfo builder
    */
   ResourcePackInfo.Builder createResourcePackBuilder(String url);
+
+  /**
+   * Set a custom server version to be displayed in F3.
+   *
+   * @param version the custom version
+   */
+  void setCustomVersion(String version);
+
+  /**
+   * Set a custom server version format to be displayed in F3.
+   *
+   * @param format the custom version format
+   */
+  void setCustomVersionFormat(String format);
 }
